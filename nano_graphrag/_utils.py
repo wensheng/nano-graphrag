@@ -12,6 +12,7 @@ from typing import Any, Union
 
 import numpy as np
 import tiktoken
+import yaml
 
 logger = logging.getLogger("nano-graphrag")
 ENCODER = None
@@ -42,7 +43,8 @@ def convert_response_to_json(response: str) -> dict:
     json_str = locate_json_string_body_from_string(response)
     assert json_str is not None, f"Unable to parse JSON from response: {response}"
     try:
-        data = json.loads(json_str)
+        # data = json.loads(json_str)
+        data = yaml.safe_load(json_str)
         return data
     except json.JSONDecodeError as e:
         logger.error(f"Failed to parse JSON: {json_str}")
